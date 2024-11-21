@@ -19,11 +19,14 @@ import {
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 export default function Profile() {
+  
   const fileRef = useRef(null);
   const { currentUser, loading, error } = useSelector((state) => state.user);
+  if (!currentUser) return <div>Loading...</div>;
   const [file, setFile] = useState(undefined);
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
+  const [fileUploading, setfileUploading] = useState(false);
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [showListingsError, setShowListingsError] = useState(false);
@@ -125,6 +128,7 @@ export default function Profile() {
       dispatch(deleteUserFailure(data.message));
     }
   };
+  console.log(currentUser.email);
 
   const handleShowListings = async () => {
     try {
@@ -198,6 +202,7 @@ export default function Profile() {
           className='border p-3 rounded-lg'
           onChange={handleChange}
         />
+        
         <input
           type='email'
           placeholder='email'
